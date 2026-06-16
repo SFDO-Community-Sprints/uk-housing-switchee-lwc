@@ -1,51 +1,156 @@
-# uk-housing-switchee-lwc
+# UK Housing — Switchee LWC
 
-This is a sample README.md file you can use to update your project. New project repos will use this template when they are created.
+A Salesforce.org Community Sprint project delivering Lightning Web Components that surface [Switchee](https://switchee.co) IoT property data inside Salesforce for UK social housing organisations.
 
-# Project Name
-Please replace with your projects name
+---
 
-# Project Overview
-## Vision & Goals
-Please replace with your projects vision.
-* Goal 1
-* Goal 2
+## Project Overview
 
-## Project Vertical
-Please replace with Nonprofit, Education, or Other (if Other, explain further)
+### Vision & Goals
 
-## Trailblazer Group or Slack Channel Link (access required)
-Please replace with the URL for your Trailblazer Community group and/or Slack channel issued by the Commons program team.
+Switchee provides smart thermostats and sensors to social housing properties, generating rich daily data on indoor conditions, energy use, and risk indicators (mould, fuel poverty, overheating). This project brings that data directly into Salesforce on the **Location** record page, giving housing officers a single view of each property's health without needing to switch to the Switchee portal.
 
-## How to Contribute:
-- Way 1.
-- Way 2. 
-- Way 3. 
+**Goals:**
+- Surface Switchee IoT data (temperature, humidity, mould risk, energy) on the Salesforce Location record page
+- Provide a 30-day trend chart for key metrics with an energy breakdown
+- Show per-room sensor data linked to Asset records representing rooms within the property
+- Deliver reusable, open-source components that any UK housing organisation using Salesforce and Switchee can deploy
+
+### Project Vertical
+
+Housing / Nonprofit
+
+---
+
+## Components
+
+### Switchee Trend Panel (`switchee_asset_LWC_panel`)
+
+Placed on the Location record page. Shows a property-level summary including:
+
+- **Risk badges** — Mould, Fuel Poverty, Overheating, Heat Loss, Time-to-Heat (colour-coded High / Medium / Low)
+- **Latest readings** — average temperature, humidity, heating hours, hot water hours
+- **Energy summary** — solar generated, whole-home consumption, net from grid (latest day)
+- **30-day trend chart** — SVG polyline chart with tabs for Mould Risk, Indoor Temp, Humidity, Heating Hours, and Energy kWh, with a date X-axis
+
+### Switchee Rooms & Energy Panel (`switcheeRoomsEnergyPanel`)
+
+Placed on the Location record page alongside the Trend Panel. Shows:
+
+- **Room cards** — one card per Switchee device installed at the property, showing the room name, min/avg/max temperature, humidity, and any active warnings (condensation risk, cold home)
+- **Drill-down chart** — click any room card to expand a 30-day inline chart for that room, with tabs for Indoor Temp, Humidity, and Heating Hours
+
+---
+
+## Data Model
+
+The components rely on four objects linked to the standard `Location` object:
+
+| Object | Description |
+|---|---|
+| `Location` | Standard Salesforce object representing the physical property |
+| `Switchee_Device__c` | Physical hardware devices installed at the property (one per room) |
+| `Switchee_Insight__c` | Daily aggregated analytics — risk scores, temp, humidity, heating (one per day) |
+| `Switchee_Energy_Reading__c` | Daily meter clamp readings — solar and whole-home energy (one per day per meter) |
+
+Full field-level documentation is in [`docs/switchee-lwc-technical-documentation.md`](docs/switchee-lwc-technical-documentation.md).
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Salesforce org with the Switchee custom objects deployed
+- Salesforce CLI (`sf`) installed and authenticated
+- System Administrator profile with Read/Write access to all Switchee objects
+
+### Deploy the components
+
+```bash
+# Clone the repo
+git clone https://github.com/SFDO-Community-Sprints/uk-housing-switchee-lwc.git
+cd uk-housing-switchee-lwc
+
+# Deploy Apex and LWCs
+sf project deploy start \
+  --source-dir force-app/main/default/classes \
+  --source-dir force-app/main/default/lwc/switchee_asset_LWC_panel \
+  --source-dir force-app/main/default/lwc/switcheeRoomsEnergyPanel \
+  --target-org <your-org-alias> --wait 10
+```
+
+### Load sample data
+
+The `data/` folder contains numbered CSV files and a full import guide. See [`data/README.md`](data/README.md) for step-by-step instructions.
+
+### Add to a Location page
+
+1. Open **Lightning App Builder** on any Location record
+2. Search for *Switchee* in the component panel
+3. Drag **Switchee Trend Panel** and **Switchee Rooms & Energy Panel** onto the page
+4. Save and activate
+
+---
+
+## Repository Structure
+
+```
+uk-housing-switchee-lwc/
+├── force-app/main/default/
+│   ├── classes/
+│   │   ├── SwitcheeTrendController.cls          Apex for Trend Panel
+│   │   └── SwitcheeRoomsEnergyController.cls    Apex for Rooms & Energy Panel
+│   └── lwc/
+│       ├── switchee_asset_LWC_panel/            Switchee Trend Panel
+│       └── switcheeRoomsEnergyPanel/            Switchee Rooms & Energy Panel
+├── data/
+│   ├── README.md                                Import guide & field reference
+│   ├── 01_Location.csv
+│   ├── 02_Asset.csv
+│   ├── 03_Switchee_Device__c.csv
+│   ├── 04_Switchee_Insight__c.csv
+│   └── 05_Switchee_Energy_Reading__c.csv
+├── docs/
+│   └── switchee-lwc-technical-documentation.md Full technical documentation
+└── sfdx-project.json
+```
+
+---
 
 ## Project Resources and Documentation
-Documentation can be found in the repository [wiki] (URL for wiki where docs are stored)
 
+- **Technical documentation:** [`docs/switchee-lwc-technical-documentation.md`](docs/switchee-lwc-technical-documentation.md)
+- **Data import guide:** [`data/README.md`](data/README.md)
+- **Switchee portal:** [portal.switchee.co](https://portal.switchee.co)
 
-***
-BELOW CONTENT TO USE TO CREATE YOUR FIRST WIKI PAGE TO HOUSE DETAILS ABOUT YOUR SPRINT PARTICIPATION. 
-1. Cut the below from the readme and paste into a new Wiki page. Delete these instructions.
-2. Update that wiki page with details from the Sprint. 
-3. Copy that format for the next Sprint.
+---
 
-# Sprint (DATE): 
-## Project Team & Accomplishments
-Add details here - what you did, links to docs if there are any, etc.
+## Sprint Participation
 
-## Contributors
+### Sprint — June 2026
 
-Full Name            | Team Role     | Github Username                                    | Working Group? 
-------------         | ------------- | -------------                                      |-------------   
-Enter persons name   | Group Leader  | [fakeusername](https://github.com/fakeusername)    | 
-Enter persons name   | Contributor   |                                                    | Enter working group name
+#### What we built
 
-## Future Contributions 
-(AKA what were you unable to finish at the Sprint)
-Replace with the goals your team would like to continue working on next time.
+- Initialised the SFDX project structure and deployed to a Salesforce org
+- Built `SwitcheeTrendController` Apex class and `switchee_asset_LWC_panel` LWC with risk badges, readings summary, energy tiles, and a 5-tab 30-day SVG trend chart with date X-axis
+- Built `SwitcheeRoomsEnergyController` Apex class and `switcheeRoomsEnergyPanel` LWC with room cards (min/avg/max temperature, humidity, warnings) and a clickable per-room drill-down chart
+- Created 10 sample Asset records (rooms and home components) linked to the Location
+- Set FLS for System Administrator profile across all Switchee objects
+- Produced full technical documentation and sample data CSV files with import guide
 
-***
+#### Contributors
 
+Full Name | Team Role | GitHub Username
+--- | --- | ---
+Nathan Gibbs | Author | —
+Jamie Jackaman | Author | —
+Raksha Sanganee | Author | —
+
+---
+
+## How to Contribute
+
+- Raise an issue or pull request on this repository
+- Join the Salesforce.org Commons Slack for discussion
+- See the [Known Limitations](docs/switchee-lwc-technical-documentation.md#known-limitations--future-work) section in the technical docs for areas where contributions are most needed
