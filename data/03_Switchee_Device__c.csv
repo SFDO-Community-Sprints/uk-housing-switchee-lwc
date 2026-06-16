@@ -1,0 +1,4 @@
+Name,Property_Location__c,Device_Type__c,Model__c,Room__c,Serial__c
+SD-0000000,"REF:Location:1 Nath Street, London, L1",SWT,G2,LIVING_ROOM,SWX-LOCATION_ID-SWT-001
+SD-0000001,"REF:Location:1 Nath Street, London, L1",Z_MS,MS6,MASTER_BEDROOM,SWX-LOCATION_ID-MS-001
+SD-0000002,"REF:Location:1 Nath Street, London, L1",Z_EN,EN1,ROOF,SWX-LOCATION_ID-EN-001

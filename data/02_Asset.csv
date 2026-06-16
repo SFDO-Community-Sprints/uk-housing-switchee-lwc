@@ -1,0 +1,11 @@
+Name,LocationId,Status,InstallDate,SerialNumber,Description
+Living Room,"REF:Location:1 Nath Street, London, L1",Installed,2024-03-15,ROOM-LOCATION_ID-LVR,Main living room with Switchee SWT thermostat device
+Master Bedroom,"REF:Location:1 Nath Street, London, L1",Installed,2024-03-15,ROOM-LOCATION_ID-MBR,Master bedroom with Switchee Z_MS multi-sensor device
+Kitchen,"REF:Location:1 Nath Street, London, L1",Installed,2024-03-15,ROOM-LOCATION_ID-KIT,Kitchen area including hob and under-counter refrigeration
+Bathroom,"REF:Location:1 Nath Street, London, L1",Installed,2024-03-15,ROOM-LOCATION_ID-BTH,Main bathroom with bath and overhead shower
+Roof Space,"REF:Location:1 Nath Street, London, L1",Installed,2024-03-15,ROOM-LOCATION_ID-ROOF,Roof void with Switchee Z_EN energy node and loft insulation
+Boiler,"REF:Location:1 Nath Street, London, L1",Installed,2021-09-10,BOILER-WB-GS30I-0042,Worcester Bosch Greenstar 30i combi boiler - gas central heating and hot water
+Smart Meter (Gas),"REF:Location:1 Nath Street, London, L1",Installed,2022-06-01,SMTR-GAS-BG-1174832,SMETS2 gas smart meter installed by British Gas
+Smart Meter (Electricity),"REF:Location:1 Nath Street, London, L1",Installed,2022-06-01,SMTR-ELEC-BG-1174833,SMETS2 electricity smart meter installed by British Gas
+Radiator - Living Room,"REF:Location:1 Nath Street, London, L1",Installed,2021-09-10,RAD-LOCATION_ID-LVR-01,Double-panel convector radiator 1200x600mm with TRV
+Radiator - Master Bedroom,"REF:Location:1 Nath Street, London, L1",Installed,2021-09-10,RAD-LOCATION_ID-MBR-01,Single-panel radiator 900x600mm with TRV
