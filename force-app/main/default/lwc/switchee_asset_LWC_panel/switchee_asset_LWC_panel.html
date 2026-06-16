@@ -1,0 +1,128 @@
+<template>
+    <div class="panel-container" if:true={locationRecord}>
+        <div class="panel-card">
+
+            <div class="header-row">
+                <div class="header-title">
+                    <lightning-icon icon-name="utility:graph" size="small" class="slds-m-right_x-small"></lightning-icon>
+                    <div>
+                        <p class="title-text">Switchee insights</p>
+                        <p class="subtitle-text">
+                            <lightning-icon icon-name="utility:clock" size="xx-small" class="slds-m-right_xx-small"></lightning-icon>
+                            latest sync {lastSyncedDate} &middot; context date {contextDate}
+                        </p>
+                    </div>
+                </div>
+                <a href="https://portal.switchee.co" target="_blank" class="portal-link">
+                    Switchee portal
+                    <lightning-icon icon-name="utility:new_window" size="xx-small" class="slds-m-left_xx-small"></lightning-icon>
+                </a>
+            </div>
+
+            <div class="badge-grid">
+                <div class="risk-badge" style={mouldStyle}>
+                    <p class="badge-label">Mould</p>
+                    <p class="badge-value">{latestInsight.Mould_Risk__c}</p>
+                </div>
+                <div class="risk-badge" style={fpStyle}>
+                    <p class="badge-label">Fuel poverty</p>
+                    <p class="badge-value">{latestInsight.Fuel_Poverty_Risk__c}</p>
+                </div>
+                <div class="risk-badge" style={overheatingStyle}>
+                    <p class="badge-label">Overheating</p>
+                    <p class="badge-value">{latestInsight.Overheating_Risk__c}</p>
+                </div>
+                <div class="risk-badge" style={heatLossStyle}>
+                    <p class="badge-label">Heat loss</p>
+                    <p class="badge-value">{latestInsight.Heat_Loss_Band__c}</p>
+                </div>
+                <div class="risk-badge" style={timeToHeatStyle}>
+                    <p class="badge-label">Time to heat</p>
+                    <p class="badge-value">{latestInsight.Time_To_Heat_Band__c}</p>
+                </div>
+            </div>
+
+            <div class="readings-section" if:true={latestInsight}>
+                <div class="readings-grid">
+                    <div>
+                        <p class="reading-label">Avg temp</p>
+                        <p class="reading-value">{latestInsight.Avg_Indoor_Temp__c}&deg;C</p>
+                    </div>
+                    <div>
+                        <p class="reading-label">Avg humidity</p>
+                        <p class="reading-value">{latestInsight.Avg_Humidity__c}%</p>
+                    </div>
+                    <div>
+                        <p class="reading-label">Heating</p>
+                        <p class="reading-value">{latestInsight.Heating_Hrs__c} hrs</p>
+                    </div>
+                    <div>
+                        <p class="reading-label">Hot water</p>
+                        <p class="reading-value">{latestInsight.Hot_Water_Hrs__c} hr</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Energy summary tiles moved here from Rooms & Energy panel -->
+            <div class="energy-section">
+                <p class="energy-section-label">Energy &middot; clamps fitted</p>
+                <div class="energy-grid">
+                    <div class="energy-tile">
+                        <p class="energy-tile-label">
+                            <lightning-icon icon-name="utility:sun" size="xx-small" class="slds-m-right_xx-small"></lightning-icon>
+                            Solar generated
+                        </p>
+                        <p class="energy-tile-value" style="color: #2E844A;">{energySummary.solar} kWh</p>
+                    </div>
+                    <div class="energy-tile">
+                        <p class="energy-tile-label">
+                            <lightning-icon icon-name="utility:lightning_bolt" size="xx-small" class="slds-m-right_xx-small"></lightning-icon>
+                            Whole&#8209;home use
+                        </p>
+                        <p class="energy-tile-value">{energySummary.wholeHome} kWh</p>
+                    </div>
+                    <div class="energy-tile">
+                        <p class="energy-tile-label">
+                            <lightning-icon icon-name="utility:change_record_type" size="xx-small" class="slds-m-right_xx-small"></lightning-icon>
+                            Net from grid
+                        </p>
+                        <p class="energy-tile-value">{energySummary.netGrid} kWh</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-section">
+                <div class="chart-header">
+                    <div>
+                        <p class="chart-title">Trend &middot; last 30 days</p>
+                        <p class="chart-current-display">
+                            <span class="chart-current-value">{chartStats.currentValue}</span>
+                            <span class="chart-current-label">{activeMeta.lbl}</span>
+                        </p>
+                    </div>
+
+                    <div class="chart-tabs">
+                        <button data-m="mould"    style={mouldBtnStyle}    onclick={handleTabClick}>Mould risk</button>
+                        <button data-m="temp"     style={tempBtnStyle}     onclick={handleTabClick}>Indoor temp</button>
+                        <button data-m="humidity" style={humidityBtnStyle} onclick={handleTabClick}>Humidity</button>
+                        <button data-m="heating"  style={heatingBtnStyle}  onclick={handleTabClick}>Heating hrs</button>
+                        <button data-m="energy"   style={energyBtnStyle}   onclick={handleTabClick}>Energy kWh</button>
+                    </div>
+                </div>
+
+                <svg viewBox="0 0 600 196" width="100%" height="196">
+                    <line x1="44" y1="126" x2="590" y2="126" stroke="#DDDBDA" stroke-width="1"/>
+                    <text x="38" y="20"  text-anchor="end" font-size="11" fill="#747474">{chartStats.displayMax}</text>
+                    <text x="38" y="130" text-anchor="end" font-size="11" fill="#747474">{chartStats.displayMin}</text>
+                    <polyline points={polylinePoints} fill="none" stroke={activeMeta.color} stroke-width="2"/>
+                    <circle cx={endDot.cx} cy={endDot.cy} r="3.5" fill={activeMeta.color}/>
+                    <template for:each={xAxisLabels} for:item="tick">
+                        <line key={tick.key} x1={tick.x} y1="126" x2={tick.x} y2="133" stroke="#DDDBDA" stroke-width="1"/>
+                        <text key={tick.key} x={tick.x} y="146" text-anchor="middle" font-size="10" fill="#747474">{tick.label}</text>
+                    </template>
+                </svg>
+            </div>
+
+        </div>
+    </div>
+</template>

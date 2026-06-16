@@ -1,0 +1,178 @@
+/* ── Panel shell ─────────────────────────────────────────── */
+.panel-outer {
+    background: #F3F2F2;
+    border-radius: 12px;
+    border: none;
+    padding: 1.25rem;
+}
+
+.panel-inner {
+    background: #FFFFFF;
+    border-radius: 12px;
+    border: 0.5px solid #DDDBDA;
+    padding: 1rem 1.25rem;
+}
+
+/* ── Room cards ──────────────────────────────────────────── */
+.room-card {
+    background: #F9F9F9;
+    border: 0.5px solid #DDDBDA;
+    border-radius: 8px;
+    padding: 12px 14px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.room-card:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    border-color: #2E844A;
+}
+
+.expand-hint {
+    font-size: 11px;
+    color: #2E844A;
+    margin: auto 0 0;
+    padding-top: 10px;
+    text-align: right;
+}
+
+/* ── Temperature block ───────────────────────────────────── */
+.temp-block {
+    border: 0.5px solid #DDDBDA;
+    border-radius: 6px;
+    padding: 7px 10px;
+    background: #FFFFFF;
+}
+
+.temp-block-header { margin: 0; }
+
+.temp-cols {
+    display: flex;
+    gap: 0;
+}
+
+.temp-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.temp-col-avg {
+    border-left: 0.5px solid #DDDBDA;
+    border-right: 0.5px solid #DDDBDA;
+}
+
+.temp-col-label {
+    font-size: 10px;
+    color: #747474;
+    margin-bottom: 2px;
+}
+
+/* ── Sensor value text ───────────────────────────────────── */
+.data-value {
+    font-weight: 500;
+    font-size: 13px;
+}
+
+.data-value.danger {
+    color: #C23934;
+    font-weight: 600;
+}
+
+.data-value.warning {
+    color: #A46F25;
+    font-weight: 600;
+}
+
+/* ── Warning badges ──────────────────────────────────────── */
+.action-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.action-tag.warning { background: #FFF3E0; color: #A46F25; }
+.action-tag.danger  { background: #FDE8E9; color: #C23934; }
+
+/* ── Asset drill-down chart section ─────────────────────── */
+.asset-chart-section {
+    border-top: 0.5px solid #DDDBDA;
+    padding-top: 16px;
+    margin-top: 4px;
+}
+
+.asset-chart-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.asset-chart-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: #3E3E3C;
+    margin: 0 0 2px;
+}
+
+.asset-chart-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.chart-current-display { margin: 2px 0 0; }
+
+.chart-current-value {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.chart-current-label {
+    font-size: 12px;
+    color: #747474;
+    margin-left: 4px;
+}
+
+/* ── Chart tabs ──────────────────────────────────────────── */
+.chart-tabs {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.chart-tabs button {
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* ── Close button ────────────────────────────────────────── */
+.close-btn {
+    background: transparent;
+    border: 0.5px solid #DDDBDA;
+    border-radius: 4px;
+    color: #747474;
+    cursor: pointer;
+    font-size: 13px;
+    padding: 3px 8px;
+    line-height: 1;
+    transition: background 0.15s ease;
+}
+
+.close-btn:hover {
+    background: #FDE8E9;
+    border-color: #C23934;
+    color: #C23934;
+}

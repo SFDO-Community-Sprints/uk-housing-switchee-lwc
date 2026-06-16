@@ -1,0 +1,184 @@
+.panel-container {
+    background: #F3F2F2;
+    border-radius: 12px;
+    padding: 1.25rem;
+}
+
+.panel-card {
+    background: #FFFFFF;
+    border-radius: 12px;
+    border: 0.5px solid #DDDBDA;
+    padding: 1rem 1.25rem;
+}
+
+.header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.header-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.title-text {
+    font-weight: 500;
+    font-size: 15px;
+    margin: 0;
+}
+
+.subtitle-text {
+    font-size: 12px;
+    color: #747474;
+    margin: 0;
+}
+
+.portal-link {
+    font-size: 13px;
+    color: #0176D3;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.badge-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(108px, 1fr));
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.risk-badge {
+    border-radius: 8px;
+    padding: 9px 11px;
+}
+
+.badge-label {
+    font-size: 11px;
+    margin: 0 0 2px;
+    opacity: 0.8;
+}
+
+.badge-value {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0;
+}
+
+.readings-section {
+    border-top: 0.5px solid #DDDBDA;
+    padding-top: 12px;
+    margin-bottom: 16px;
+}
+
+.readings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(92px, 1fr));
+    gap: 10px;
+}
+
+.reading-label {
+    font-size: 11px;
+    color: #747474;
+    margin: 0;
+}
+
+.reading-value {
+    font-size: 17px;
+    font-weight: 500;
+    margin: 0;
+}
+
+.energy-section {
+    border-top: 0.5px solid #DDDBDA;
+    padding-top: 12px;
+    margin-bottom: 16px;
+}
+
+.energy-section-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: #747474;
+    margin: 0 0 10px;
+}
+
+.energy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 8px;
+}
+
+.energy-tile {
+    background: #F3F2F2;
+    border-radius: 8px;
+    padding: 10px 12px;
+}
+
+.energy-tile-label {
+    display: flex;
+    align-items: center;
+    font-size: 11px;
+    color: #747474;
+    margin: 0 0 4px;
+}
+
+.energy-tile-value {
+    font-size: 17px;
+    font-weight: 600;
+    margin: 0;
+    color: #3E3E3C;
+}
+
+.chart-section {
+    border-top: 0.5px solid #DDDBDA;
+    padding-top: 12px;
+}
+
+.chart-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.chart-title {
+    font-size: 12px;
+    color: #3E3E3C;
+    margin: 0;
+}
+
+.chart-current-display {
+    margin: 2px 0 0;
+}
+
+.chart-current-value {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.chart-current-label {
+    font-size: 12px;
+    color: #747474;
+    margin-left: 4px;
+}
+
+.chart-tabs {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+/* Base styles for the tab buttons */
+.chart-tabs button {
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    /* The active/inactive styles are controlled via JS binding in style={...} */
+}

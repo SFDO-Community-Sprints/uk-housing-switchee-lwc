@@ -1,0 +1,5 @@
+{
+  "packageDirectories": [{"path": "force-app", "default": true}],
+  "sourceApiVersion": "62.0",
+  "name": "uk-housing-switchee-lwc"
+}

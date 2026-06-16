@@ -1,0 +1,109 @@
+<template>
+    <div class="slds-box slds-theme_default slds-m-top_small panel-outer" if:true={hasData}>
+
+        <div class="panel-inner">
+
+            <!-- Header -->
+            <div class="slds-grid slds-grid_align-spread slds-grid_vertical-align-center slds-m-bottom_medium">
+                <p class="slds-text-heading_small slds-truncate"><b>Rooms &amp; sensors</b></p>
+                <span class="slds-text-body_small slds-text-color_weak slds-no-flex">context date {displayDate} &middot; daily aggregates</span>
+            </div>
+
+            <!-- Room cards -->
+            <div class="slds-grid slds-wrap slds-gutters_small">
+                <template for:each={rooms} for:item="room">
+                    <div key={room.id} class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 slds-m-bottom_medium">
+
+                        <div class="room-card" data-id={room.id} onclick={handleRoomSelect}>
+
+                            <!-- Room header -->
+                            <div class="slds-grid slds-grid_vertical-align-center slds-m-bottom_small">
+                                <lightning-icon icon-name={room.icon} size="small" class="slds-m-right_x-small"></lightning-icon>
+                                <span class="slds-text-title_bold">{room.name}</span>
+                            </div>
+
+                            <!-- Temp min/avg/max -->
+                            <div class="temp-block slds-m-bottom_x-small">
+                                <p class="temp-block-header slds-text-color_weak slds-text-body_small slds-m-bottom_xx-small">Temperature</p>
+                                <div class="temp-cols">
+                                    <div class="temp-col">
+                                        <span class="temp-col-label">Min</span>
+                                        <span class={room.minTempClass}>{room.minTemp}</span>
+                                    </div>
+                                    <div class="temp-col temp-col-avg">
+                                        <span class="temp-col-label">Avg</span>
+                                        <span class={room.avgTempClass}>{room.avgTemp}</span>
+                                    </div>
+                                    <div class="temp-col">
+                                        <span class="temp-col-label">Max</span>
+                                        <span class={room.maxTempClass}>{room.maxTemp}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Humidity -->
+                            <div class="slds-grid slds-grid_align-spread slds-m-bottom_x-small">
+                                <span class="slds-text-color_weak slds-text-body_small">Humidity</span>
+                                <span class={room.humClass}>{room.humidity}</span>
+                            </div>
+
+                            <!-- CO2 -->
+                            <div class="slds-grid slds-grid_align-spread slds-m-bottom_x-small">
+                                <span class="slds-text-color_weak slds-text-body_small">CO&#8322;</span>
+                                <span class={room.co2Class}>{room.co2}</span>
+                            </div>
+
+                            <template if:true={room.showWarning}>
+                                <div class="slds-m-top_xx-small">
+                                    <span class={room.warningClass}>{room.warningText}</span>
+                                </div>
+                            </template>
+
+                            <!-- Expand hint -->
+                            <p class="expand-hint">View 30-day trends ›</p>
+
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+            <!-- Asset drill-down chart -->
+            <template if:true={selectedRoom}>
+                <div class="asset-chart-section">
+
+                    <div class="asset-chart-header">
+                        <div>
+                            <p class="asset-chart-title">{selectedRoom.name} &middot; 30-day trends</p>
+                            <p class="chart-current-display">
+                                <span class="chart-current-value">{assetChartStats.currentValue}</span>
+                                <span class="chart-current-label">{assetActiveMeta.lbl}</span>
+                            </p>
+                        </div>
+                        <div class="asset-chart-controls">
+                            <div class="chart-tabs">
+                                <button data-m="temp"     style={assetTempBtnStyle}    onclick={handleAssetTabClick}>Indoor temp</button>
+                                <button data-m="humidity" style={assetHumBtnStyle}     onclick={handleAssetTabClick}>Humidity</button>
+                                <button data-m="heating"  style={assetHeatingBtnStyle} onclick={handleAssetTabClick}>Heating hrs</button>
+                            </div>
+                            <button class="close-btn" onclick={handleCloseAsset} title="Close">&#10005;</button>
+                        </div>
+                    </div>
+
+                    <svg viewBox="0 0 600 196" width="100%" height="196">
+                        <line x1="44" y1="126" x2="590" y2="126" stroke="#DDDBDA" stroke-width="1"/>
+                        <text x="38" y="20"  text-anchor="end" font-size="11" fill="#747474">{assetChartStats.displayMax}</text>
+                        <text x="38" y="130" text-anchor="end" font-size="11" fill="#747474">{assetChartStats.displayMin}</text>
+                        <polyline points={assetPolylinePoints} fill="none" stroke={assetActiveMeta.color} stroke-width="2"/>
+                        <circle cx={assetEndDot.cx} cy={assetEndDot.cy} r="3.5" fill={assetActiveMeta.color}/>
+                        <template for:each={assetXAxisLabels} for:item="tick">
+                            <line key={tick.key} x1={tick.x} y1="126" x2={tick.x} y2="133" stroke="#DDDBDA" stroke-width="1"/>
+                            <text key={tick.key} x={tick.x} y="146" text-anchor="middle" font-size="10" fill="#747474">{tick.label}</text>
+                        </template>
+                    </svg>
+
+                </div>
+            </template>
+
+        </div>
+    </div>
+</template>
