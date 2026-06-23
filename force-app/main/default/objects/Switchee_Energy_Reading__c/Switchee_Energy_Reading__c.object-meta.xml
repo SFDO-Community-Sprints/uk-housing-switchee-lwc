@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label>Switchee Energy Reading</label>
+    <pluralLabel>Switchee Energy Readings</pluralLabel>
+    <description>Daily meter clamp reading — solar generation and whole-home energy consumption</description>
+    <nameField>
+        <label>Reading Number</label>
+        <type>AutoNumber</type>
+        <displayFormat>SER-{0000000}</displayFormat>
+        <startingNumber>1</startingNumber>
+    </nameField>
+    <sharingModel>ReadWrite</sharingModel>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <visibility>Public</visibility>
+    <enableSearch>true</enableSearch>
+    <enableReports>true</enableReports>
+    <enableActivities>true</enableActivities>
+</CustomObject>

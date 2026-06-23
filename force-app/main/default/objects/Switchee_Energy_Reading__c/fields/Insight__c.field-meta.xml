@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Insight__c</fullName>
+    <label>Insight</label>
+    <type>Lookup</type>
+    <referenceTo>Switchee_Insight__c</referenceTo>
+    <relationshipName>Switchee_Energy_Readings</relationshipName>
+    <relationshipLabel>Switchee Energy Readings</relationshipLabel>
+</CustomField>

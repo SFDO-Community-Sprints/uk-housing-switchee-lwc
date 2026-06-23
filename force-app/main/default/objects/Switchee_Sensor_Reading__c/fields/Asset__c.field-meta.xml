@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Asset__c</fullName>
+    <label>Asset</label>
+    <type>Lookup</type>
+    <referenceTo>Asset</referenceTo>
+    <relationshipName>Switchee_Sensor_Readings</relationshipName>
+    <relationshipLabel>Switchee Sensor Readings</relationshipLabel>
+</CustomField>
