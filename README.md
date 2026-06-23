@@ -3,6 +3,14 @@
 A Salesforce.org Community Sprint project delivering Lightning Web Components that surface [Switchee](https://switchee.co) IoT property data inside Salesforce for UK social housing organisations.
 
 ---
+#### Contributors
+
+Full Name | Team Role | GitHub Username
+--- | --- | ---
+Nathan Gibbs | Author | —
+Jamie Jackaman | Author | —
+Raksha Sanganee | Author | —
+
 
 ## Project Overview
 
@@ -139,13 +147,7 @@ uk-housing-switchee-lwc/
 - Set FLS for System Administrator profile across all Switchee objects
 - Produced full technical documentation and sample data CSV files with import guide
 
-#### Contributors
 
-Full Name | Team Role | GitHub Username
---- | --- | ---
-Nathan Gibbs | Author | —
-Jamie Jackaman | Author | —
-Raksha Sanganee | Author | —
 
 ---
 
