@@ -34,6 +34,9 @@ Housing / Nonprofit
 
 ## Components
 
+<img width="1263" height="1023" alt="aha_switchee_lwcs" src="https://github.com/user-attachments/assets/d148c800-d753-4459-8399-01e3d404da80" />
+
+
 ### Switchee Trend Panel (`switchee_asset_LWC_panel`)
 
 Placed on the Location record page. Shows a property-level summary including:
