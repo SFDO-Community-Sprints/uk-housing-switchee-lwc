@@ -2,6 +2,8 @@
 
 A Salesforce.org Community Sprint project delivering Lightning Web Components that surface [Switchee](https://switchee.co) IoT property data inside Salesforce for UK social housing organisations.
 
+> **Installing this project?** See [`AI-Install-Instructions.md`](AI-Install-Instructions.md) for a complete, validated step-by-step guide covering prerequisites, deployment order, seed data import, and known gotchas.
+
 ---
 
 ## Project Overview
