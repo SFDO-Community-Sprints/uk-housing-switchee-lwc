@@ -3,14 +3,6 @@
 A Salesforce.org Community Sprint project delivering Lightning Web Components that surface [Switchee](https://switchee.co) IoT property data inside Salesforce for UK social housing organisations.
 
 ---
-#### Contributors
-
-Full Name | Team Role | GitHub Username
---- | --- | ---
-Nathan Gibbs | Author | —
-Jamie Jackaman | Author | —
-Raksha Sanganee | Author | —
-
 
 ## Project Overview
 
@@ -23,6 +15,14 @@ Switchee provides smart thermostats and sensors to social housing properties, ge
 - Provide a 30-day trend chart for key metrics with an energy breakdown
 - Show per-room sensor data linked to Asset records representing rooms within the property
 - Deliver reusable, open-source components that any UK housing organisation using Salesforce and Switchee can deploy
+
+
+
+### Contributors
+- **Nathan Gibbs** - Home Group
+- **Jamie Jackaman** - LiveWest
+- **Raksha Sanganee** 
+
 
 ### Project Vertical
 
