@@ -54,25 +54,8 @@ gh auth status
 
 ---
 
-## CRITICAL: Custom fields require a Permission Set — deploy it before testing
-
-Custom fields deployed via SFDX source format are **not visible to SOQL or Apex** until Field-Level Security is explicitly granted, even for System Administrators. This affects Text, Number, Picklist, DateTime fields. Lookup fields on required fields are implicitly accessible.
-
-The repo includes `force-app/main/default/permissionsets/Switchee_Access.permissionset-meta.xml` which grants Read/Write on all Switchee custom fields.
-
-**Deploy and assign it immediately after deploying objects:**
-```bash
-sf project deploy start \
-  --source-dir force-app/main/default/permissionsets \
-  --target-org <alias> --wait 10
-
-sf org assign permset --name Switchee_Access --target-org <alias>
-```
-
-**This was validated on sandbox `erl1` (2026-06-23) — both Apex controllers returned full data after this step.**
-
 ### Scratch org note
-During testing we also found that scratch orgs from DevHub `sdo-0626` have an additional problem where even after the permission set, fields remain invisible. Use a sandbox or Developer Edition org for reliable results.
+Scratch orgs from DevHub `sdo-0626` have a known problem where custom fields remain invisible even after the permission set is assigned. Use a sandbox or Developer Edition org for reliable results.
 
 ---
 
@@ -116,7 +99,19 @@ sf project deploy start \
   --target-org <your-org-alias> --wait 10
 ```
 
-### Step 4 — Verify objects deployed correctly
+### Step 4 — Deploy and assign the permission set
+
+Custom fields deployed via SFDX source format are not visible to SOQL until Field-Level Security is explicitly granted — even for System Administrators. Do this immediately after the objects deploy, before verifying field access.
+
+```bash
+sf project deploy start \
+  --source-dir force-app/main/default/permissionsets \
+  --target-org <your-org-alias> --wait 10
+
+sf org assign permset --name Switchee_Access --target-org <your-org-alias>
+```
+
+### Step 5 — Verify objects deployed correctly
 
 Run this SOQL check — all should return rows (0 rows is fine, errors are not):
 ```bash
@@ -127,7 +122,7 @@ sf data query --query "SELECT Purpose__c, Delta_kWh__c FROM Switchee_Energy_Read
 
 If you get "No such column" errors, the objects didn't deploy correctly — do NOT proceed to Apex deploy.
 
-### Step 5 — Deploy Apex classes and LWC components
+### Step 6 — Deploy Apex classes and LWC components
 
 ```bash
 sf project deploy start \
@@ -138,14 +133,6 @@ sf project deploy start \
 ```
 
 Expected output: 12 components deployed (2 Apex classes × 2 files + 2 LWC bundles × 4 files).
-
-### Step 6 — Check FLS / permissions
-
-On scratch orgs and sandboxes the System Administrator profile has access automatically. Verify:
-```bash
-echo "System.debug(Schema.SObjectType.Switchee_Device__c.isAccessible() + ' ' + Schema.SObjectType.Switchee_Insight__c.isAccessible());" | sf apex run --target-org <alias>
-```
-Both should print `true`. If not, generate a permission set (see `generating-permission-set` skill).
 
 ### Step 7 — Load seed data
 
@@ -300,9 +287,14 @@ sf data query --query "SELECT COUNT() FROM Switchee_Energy_Reading__c" --target-
 ```bash
 cat > /tmp/test_controller.apex << 'EOF'
 try {
-  Location loc = [SELECT Id FROM Location LIMIT 1];
-  Object result = SwitcheeTrendController.getDashboardData(loc.Id);
-  System.debug('Controller OK: ' + result);
+  // NOTE: cannot use "Location loc = [SELECT Id FROM Location ...]" in Anonymous Apex
+  // — "Location" collides with System.Location built-in. Use Database.query() instead.
+  List<SObject> locs = Database.query('SELECT Id FROM Location LIMIT 1');
+  Id locId = (Id) locs[0].get('Id');
+  Object result = SwitcheeTrendController.getDashboardData(locId);
+  System.debug('TrendController OK: ' + result);
+  Object result2 = SwitcheeRoomsEnergyController.getPanelData(locId);
+  System.debug('RoomsController OK: ' + result2);
 } catch(Exception e) {
   System.debug('Error: ' + e.getTypeName() + ' — ' + e.getMessage());
 }
@@ -310,7 +302,7 @@ EOF
 sf apex run --file /tmp/test_controller.apex --target-org <alias>
 ```
 
-Should print `Controller OK:` with a data wrapper. Any "No such column" error means the objects didn't deploy correctly.
+Should print `TrendController OK:` and `RoomsController OK:` with data wrappers. Any "No such column" error means the objects didn't deploy correctly or the permission set wasn't assigned.
 
 ### Step 9 — Add components to Lightning page (manual step)
 
@@ -433,14 +425,17 @@ When generating custom object XML, required Lookup fields must include `<deleteC
 ### 7. Custom object metadata was not in the original repo
 The repo originally only contained Apex classes and LWC components. We added the custom object metadata during this session (in `force-app/main/default/objects/`). These need to be committed and pushed to origin so future installers don't have to recreate them.
 
+### 8. Anonymous Apex `Location` conflicts with `System.Location` built-in class
+In Anonymous Apex, `Location loc = [SELECT Id FROM Location LIMIT 1]` fails to compile with: `Illegal assignment from List<Location> to System.Location`. The `Location` SObject name collides with the `System.Location` built-in. Workaround: use `Database.query()` with a `List<SObject>` return type, or add a cast: `List<Schema.Location>`. The Apex install test script in Step 8 has been updated to use `Database.query()`. Note: this is an Anonymous Apex limitation only — the Apex controllers themselves compile fine (they use `Schema.Location` implicitly via object queries).
+
 ---
 
 ## Todo for next session
 
-- [ ] Test full install on a sandbox (org has been requested)
-- [ ] Verify the metadata deploys correctly on sandbox (not affected by scratch org bug)
-- [ ] Verify seed data import end-to-end on sandbox
-- [ ] Add LWC components to Lightning page and do smoke test
+- [x] Test full install on a sandbox (switch1 — 2026-06-23) — PASSED
+- [x] Verify the metadata deploys correctly on sandbox — PASSED (no scratch org field-visibility bug)
+- [x] Verify seed data import end-to-end on sandbox — PASSED (all 5 objects, correct counts)
+- [ ] Add LWC components to Lightning page and do smoke test (manual step)
 - [ ] Commit and push the custom object metadata to origin
 - [ ] Clean up this file into a proper install guide once flow is validated
 
